@@ -11,17 +11,24 @@ metadata:
   {{- end }}
 spec:
   template:
-    {{- if or .Values.global.podLabels .Values.datahubSystemUpdate.podAnnotations}}
+    {{- if or .Values.global.podLabels .Values.datahubSystemUpdate.podAnnotations .Values.datahubSystemUpdate.extraPodLabels }}
     metadata:
     {{- with .Values.datahubSystemUpdate.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- with .Values.global.podLabels }}
+    {{- if or .Values.global.podLabels .Values.datahubSystemUpdate.extraPodLabels }}
       labels:
+    {{- with .Values.global.podLabels }}
         {{- range $key, $value := . }}
         {{ $key }}: {{ $value | quote }}
         {{- end }}
+    {{- end }}
+    {{- with .Values.datahubSystemUpdate.extraPodLabels }}
+        {{- range $key, $value := . }}
+        {{ $key }}: {{ $value | quote }}
+        {{- end }}
+    {{- end }}
     {{- end }}
     {{- end }}
     spec:
@@ -178,17 +185,24 @@ metadata:
   {{- end }}
 spec:
   template:
-    {{- if or .Values.global.podLabels .Values.datahubSystemUpdate.podAnnotations}}
+    {{- if or .Values.global.podLabels .Values.datahubSystemUpdate.podAnnotations .Values.datahubSystemUpdate.extraPodLabels }}
     metadata:
     {{- with .Values.datahubSystemUpdate.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- with .Values.global.podLabels }}
+    {{- if or .Values.global.podLabels .Values.datahubSystemUpdate.extraPodLabels }}
       labels:
+    {{- with .Values.global.podLabels }}
         {{- range $key, $value := . }}
         {{ $key }}: {{ $value | quote }}
         {{- end }}
+    {{- end }}
+    {{- with .Values.datahubSystemUpdate.extraPodLabels }}
+        {{- range $key, $value := . }}
+        {{ $key }}: {{ $value | quote }}
+        {{- end }}
+    {{- end }}
     {{- end }}
     {{- end }}
     spec:

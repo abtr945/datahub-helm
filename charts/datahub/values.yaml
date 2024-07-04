@@ -394,6 +394,7 @@ datahubSystemUpdate:
       # command: customCommand
       # args: []
   podAnnotations: {}
+  extraPodLabels: {}
   resources:
     limits:
       cpu: 500m
