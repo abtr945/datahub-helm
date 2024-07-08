@@ -395,6 +395,23 @@ datahubSystemUpdate:
       # args: []
   podAnnotations: {}
   extraPodLabels: {}
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # The name of the service account to use
+    name:
+    # Hook-related annotations to add to the service account
+    hookAnnotations:
+      # This is what defines this resource as a hook. Without this line, the
+      # service account is considered part of the release.
+      helm.sh/hook: pre-install,pre-upgrade
+      # need to set the hook weight lower than the update Job itself, so the service account is created first
+      helm.sh/hook-weight: "-5"
+      helm.sh/hook-delete-policy: before-hook-creation
+    # any other annotations to add to the service account (e.g. IAM role binding)
+    extraAnnotations: {}
+
   resources:
     limits:
       cpu: 500m

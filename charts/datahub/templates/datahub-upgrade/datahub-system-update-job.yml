@@ -1,4 +1,22 @@
 {{- if .Values.global.datahub.systemUpdate.enabled -}}
+
+{{- if .Values.datahubSystemUpdate.serviceAccount.create -}}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.datahubSystemUpdate.serviceAccount.name }}
+  labels:
+    {{- include "datahub.labels" . | nindent 4 }}
+  annotations:
+  {{- with .Values.datahubSystemUpdate.serviceAccount.hookAnnotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.datahubSystemUpdate.serviceAccount.extraAnnotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+---
+{{- end }}
+
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -36,7 +54,7 @@ spec:
       hostAliases:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- with .Values.datahubSystemUpdate.serviceAccount }}
+    {{- with .Values.datahubSystemUpdate.serviceAccount.name }}
       serviceAccountName: {{ . }}
     {{- end }}
     {{- with .Values.imagePullSecrets }}
@@ -210,7 +228,7 @@ spec:
       hostAliases:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- with .Values.datahubSystemUpdate.serviceAccount }}
+    {{- with .Values.datahubSystemUpdate.serviceAccount.name }}
       serviceAccountName: {{ . }}
     {{- end }}
     {{- with .Values.imagePullSecrets }}
