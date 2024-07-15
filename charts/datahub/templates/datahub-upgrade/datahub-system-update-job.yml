@@ -1,5 +1,4 @@
 {{- if .Values.global.datahub.systemUpdate.enabled -}}
-
 {{- if .Values.datahubSystemUpdate.serviceAccount.create -}}
 apiVersion: v1
 kind: ServiceAccount
@@ -16,7 +15,6 @@ metadata:
   {{- end }}
 ---
 {{- end }}
-
 apiVersion: batch/v1
 kind: Job
 metadata:
